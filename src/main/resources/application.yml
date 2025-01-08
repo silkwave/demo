@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: demo
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver  # Oracle JDBC 드라이버 클래스 이름
+    url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL  # Oracle DB 연결 URL
+    username: docker  # 데이터베이스 사용자명
+    password: docker123
+    hikari:
+      connection-timeout: 15000  # 커넥션 타임아웃 (밀리초)
+      maximum-pool-size: 10  # 최대 커넥션 풀 크기
+      data-source-properties:
+        '[oracle.net.disableOob]': true  # Oracle OOB(Out-of-Band) 사용 안 함    
+
+
+# server
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 360000
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml  # MyBatis 매퍼 파일 경로 설정
+#  type-aliases-package: com.example.demo.dao
+  configuration:
+    map-underscore-to-camel-case: true  # DB 컬럼명과 객체 필드명 매핑 시 언더스코어를 카멜 케이스로 변환
+
+logging:
+  level:
+    '[com.example.demo]': DEBUG  # boards 패키지 로그 레벨 설정  
+    '[org.apache.ibatis]': DEBUG  # MyBatis 관련 로그 레벨 설정
+    '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG  # SqlSessionFactoryBean 관련 로그 레벨 설정    

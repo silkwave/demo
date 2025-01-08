@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.BookInfoDAO">
+
+   <select id="selectAllBookInfo" resultType="com.example.demo.vo.BookInfoVO">
+      SELECT 	*
+      FROM	BOOK_INFO_TBL
+   </select>
+
+   <select id="selectByKey" parameterType="String" resultType="com.example.demo.vo.BookInfoVO">
+      SELECT 	*
+      FROM	BOOK_INFO_TBL
+      WHERE	book_key = #{book_key}
+   </select>
+
+   <insert id="insert" parameterType="com.example.demo.vo.BookInfoVO">
+      INSERT INTO BOOK_INFO_TBL(book_key, book_reg_no, book_title, book_author, book_publisher)
+      VALUES(#{book_key}, #{book_reg_no, jdbcType=VARCHAR},
+      		#{book_title, jdbcType=VARCHAR}, #{book_author, jdbcType=VARCHAR},
+                #{book_publisher, jdbcType=VARCHAR})
+   </insert>
+
+   <update id="update" parameterType="com.example.demo.vo.BookInfoVO">
+      UPDATE   BOOK_INFO_TBL
+      SET      book_key = #{book_key},
+               book_reg_no = #{book_reg_no},
+               book_title = #{book_title},
+               book_author = #{book_author},
+               book_publisher = #{book_publisher}
+      WHERE    book_key = #{book_key}
+   </update>
+
+   <delete id="delete" parameterType="String">
+      DELETE BOOK_INFO_TBL
+      WHERE  book_key = #{book_key}
+   </delete>
+   
+</mapper>

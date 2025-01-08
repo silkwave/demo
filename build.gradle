@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral() 
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    
+    // Springdoc OpenAPI 의존성만 추가
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+    implementation 'io.swagger:swagger-annotations:1.6.2'
+    // implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+
+
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+    // Lombok (보일러플레이트 코드 감소)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    // Oracle DB 연결을 위한 JDBC 드라이버
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+
+    // 단위 및 통합 테스트를 위한 Spring Boot 테스트 스타터
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // MyBatis 관련 테스트를 위한 MyBatis Spring Boot 테스트 스타터
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'	
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
