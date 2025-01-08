@@ -24,7 +24,10 @@ spring:
       hibernate:
         '[format_sql]'  : true
 
-
+jasypt:
+  encryptor:
+    password: mySecretKey  # 암호화에 사용할 키
+    algorithm: PBEWithHMACSHA512AndAES_256  # 암호화 알고리즘    
 
 # server
 server:
@@ -45,7 +48,3 @@ logging:
     '[org.apache.ibatis]': DEBUG  # MyBatis 관련 로그 레벨 설정
     '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG  # SqlSessionFactoryBean 관련 로그 레벨 설정    
 
-jasypt:
-  encryptor:
-    password: mySecretKey  # 암호화에 사용할 키
-    algorithm: PBEWithHMACSHA512AndAES_256  # 암호화 알고리즘    
