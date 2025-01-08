@@ -21,13 +21,6 @@ public class BookInfoController {
 
     private final BookInfoServiceImpl bookInfoService;
 
-    // 도서 목록 페이지로 이동
-    @GetMapping("/")
-    public String getBookListPage(Model model) {
-        List<BookInfoVO> allBookInfo = bookInfoService.selectAllBookInfo();
-        model.addAttribute("books", allBookInfo);
-        return "book_list"; // book_list.html 템플릿을 렌더링
-    }
 
     @Operation(summary = "도서 목록 조회", description = "도서 목록을 조회한다")
     @GetMapping("/book")
@@ -63,6 +56,7 @@ public class BookInfoController {
         }
         return ResponseEntity.ok(bookInfoService.selectAllBookInfo());
     }
+    
 
     @Operation(summary = "도서 정보 삭제", description = "도서 정보를 삭제한다")
     @DeleteMapping("/book/{book_key}")

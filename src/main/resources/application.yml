@@ -5,12 +5,25 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver  # Oracle JDBC 드라이버 클래스 이름
     url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL  # Oracle DB 연결 URL
     username: docker  # 데이터베이스 사용자명
-    password: docker123
+#    password: docker123
+    password: ENC(e0RkhL8qEaVissFWEH9ihubfgS9ZLUwm0n6pLKG7r0e1NX5bb/JioOaf/6v2D7OZ)  # 암호화된 비밀번호    
     hikari:
       connection-timeout: 15000  # 커넥션 타임아웃 (밀리초)
       maximum-pool-size: 10  # 최대 커넥션 풀 크기
       data-source-properties:
         '[oracle.net.disableOob]': true  # Oracle OOB(Out-of-Band) 사용 안 함    
+  devtools:
+    add-properties: false
+    restart:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql  : true
+
 
 
 # server
@@ -31,3 +44,8 @@ logging:
     '[com.example.demo]': DEBUG  # boards 패키지 로그 레벨 설정  
     '[org.apache.ibatis]': DEBUG  # MyBatis 관련 로그 레벨 설정
     '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG  # SqlSessionFactoryBean 관련 로그 레벨 설정    
+
+jasypt:
+  encryptor:
+    password: mySecretKey  # 암호화에 사용할 키
+    algorithm: PBEWithHMACSHA512AndAES_256  # 암호화 알고리즘    
