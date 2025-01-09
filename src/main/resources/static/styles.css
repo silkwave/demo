@@ -1,117 +1,117 @@
-/* Body and overall layout */
+/* 전체 레이아웃 및 본문 스타일 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #f4f4f9; /* 배경색 설정 */
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
 }
 
-/* Container for main content */
+/* 메인 콘텐츠를 감싸는 컨테이너 스타일 */
 .container {
     width: 80%;
 }
 
-/* Table styling */
+/* 테이블 스타일 */
 .board {
     width: 100%;
     margin-bottom: 30px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* 배경색 설정 */
+    border-radius: 8px; /* 둥근 모서리 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 }
 
 .board-header {
     padding: 15px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 1.5rem;
-    border-radius: 8px 8px 0 0;
+    background-color: #4CAF50; /* 헤더 배경색 */
+    color: white; /* 텍스트 색상 */
+    font-size: 1.5rem; /* 글자 크기 */
+    border-radius: 8px 8px 0 0; /* 상단 모서리 둥글게 */
 }
 
 .board-content {
     padding: 20px;
-    overflow-x: auto;
+    overflow-x: auto; /* 테이블 가로 스크롤 */
 }
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; /* 테이블 셀 간격 없애기 */
 }
 
 th, td {
     padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    border-bottom: 1px solid #ddd; /* 셀 하단에 구분선 */
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; /* 헤더 배경색 */
 }
 
-/* Form styling */
+/* 폼 스타일 */
 .form-board {
     display: flex;
     gap: 20px;
-    justify-content: space-between;
+    justify-content: space-between; /* 폼 요소들 사이 간격을 균등하게 */
 }
 
 .form-card {
-    background-color: #ffffff;
+    background-color: #ffffff; /* 배경색 설정 */
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 45%;
+    border-radius: 8px; /* 둥근 모서리 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    width: 45%; /* 폼 카드 너비 */
 }
 
 h2 {
-    color: #333;
+    color: #333; /* 제목 텍스트 색상 */
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px; /* 입력 요소들 간격 */
 }
 
 input {
     padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    font-size: 1rem; /* 글자 크기 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    border-radius: 4px; /* 둥근 모서리 */
 }
 
 button {
     padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
+    background-color: #4CAF50; /* 버튼 배경색 */
+    color: white; /* 버튼 텍스트 색상 */
+    border: none; /* 테두리 없음 */
+    border-radius: 4px; /* 둥근 모서리 */
+    cursor: pointer; /* 커서 변경 */
+    font-size: 1rem; /* 글자 크기 */
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* 버튼에 마우스를 올렸을 때 배경색 */
 }
 
-/* Message box */
+/* 메시지 박스 스타일 */
 .message-box {
     padding: 10px;
     margin-top: 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    color: white;
-    text-align: center;
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 글자 크기 */
+    color: white; /* 텍스트 색상 */
+    text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 .success {
-    background-color: green;
+    background-color: green; /* 성공 메시지 배경색 */
 }
 
 .error {
-    background-color: red;
+    background-color: red; /* 오류 메시지 배경색 */
 }

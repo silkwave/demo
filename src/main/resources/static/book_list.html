@@ -5,74 +5,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Management</title>
-    <link rel="stylesheet" href="styles.css"> <!-- External CSS file -->
+    <link rel="stylesheet" href="styles.css"> <!-- 외부 CSS 파일 연결 -->
 </head>
 
 <body>
-    <!-- Message Box for Success/Error -->
+    <!-- 성공/오류 메시지를 위한 메시지 박스 -->
     <div id="messageBox" class="message-box" style="display: none;"></div>
 
-    <!-- Table for listing books -->
+    <!-- 책 목록을 보여주는 테이블 -->
     <div class="container">
         <div class="board">
-            <div class="board-header">Book List</div>
+            <div class="board-header">Book List</div> <!-- 테이블 헤더 -->
             <div class="board-content">
                 <table id="bookTable">
                     <thead>
                         <tr>
-                            <th>Book Key</th>
-                            <th>Registration No</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Publisher</th>
-                            <th>Actions</th>
+                            <th>Book Key</th> <!-- 책 키 -->
+                            <th>Registration No</th> <!-- 등록 번호 -->
+                            <th>Title</th> <!-- 제목 -->
+                            <th>Author</th> <!-- 저자 -->
+                            <th>Publisher</th> <!-- 출판사 -->
+                            <th>Actions</th> <!-- 수정/삭제 버튼 -->
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Data rows will be populated here -->
+                        <!-- 데이터 행은 JavaScript로 동적으로 추가됨 -->
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
 
-    <!-- Add Book Form -->
+    <!-- 책 추가 폼 -->
     <div class="container">
         <div class="form-board">
             <div class="form-card">
-                <h2>Add Book</h2>
-                <form onsubmit="addBook(event)">
-                    <input type="text" id="book_key_input" placeholder="Book Key" required>
-                    <input type="text" id="add_book_reg_no" placeholder="Registration No" required>
-                    <input type="text" id="add_book_title" placeholder="Title" required>
-                    <input type="text" id="add_book_author" placeholder="Author" required>
-                    <input type="text" id="add_book_publisher" placeholder="Publisher" required>
-                    <button type="submit">Add Book</button>
+                <h2>Add Book</h2> <!-- "책 추가" 제목 -->
+                <form onsubmit="addBook(event)"> <!-- 책 추가 이벤트 처리 -->
+                    <input type="text" id="book_key_input" placeholder="Book Key" required> <!-- 책 키 입력 -->
+                    <input type="text" id="add_book_reg_no" placeholder="Registration No" required> <!-- 등록 번호 입력 -->
+                    <input type="text" id="add_book_title" placeholder="Title" required> <!-- 제목 입력 -->
+                    <input type="text" id="add_book_author" placeholder="Author" required> <!-- 저자 입력 -->
+                    <input type="text" id="add_book_publisher" placeholder="Publisher" required> <!-- 출판사 입력 -->
+                    <button type="submit">Add Book</button> <!-- "책 추가" 버튼 -->
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Update Book Form -->
+    <!-- 책 수정 폼 -->
     <div class="container">
         <div class="form-board">
             <div class="form-card">
-                <h2>Update Book</h2>
-                <form onsubmit="updateBook(event)">
-                    <input type="text" id="update_book_key" placeholder="Book Key" required>
-                    <input type="text" id="update_book_reg_no" placeholder="Registration No" required>
-                    <input type="text" id="update_book_title" placeholder="Title" required>
-                    <input type="text" id="update_book_author" placeholder="Author" required>
-                    <input type="text" id="update_book_publisher" placeholder="Publisher" required>
-                    <button type="submit">Update Book</button>
+                <h2>Update Book</h2> <!-- "책 수정" 제목 -->
+                <form onsubmit="updateBook(event)"> <!-- 책 수정 이벤트 처리 -->
+                    <input type="text" id="update_book_key" placeholder="Book Key" required> <!-- 책 키 입력 -->
+                    <input type="text" id="update_book_reg_no" placeholder="Registration No" required> <!-- 등록 번호 입력 -->
+                    <input type="text" id="update_book_title" placeholder="Title" required> <!-- 제목 입력 -->
+                    <input type="text" id="update_book_author" placeholder="Author" required> <!-- 저자 입력 -->
+                    <input type="text" id="update_book_publisher" placeholder="Publisher" required> <!-- 출판사 입력 -->
+                    <button type="submit">Update Book</button> <!-- "책 수정" 버튼 -->
                 </form>
             </div>
         </div>
     </div>
 
-
-    <!-- External JS File -->
+    <!-- 외부 JS 파일 연결 -->
     <script src="script.js"></script>
 </body>
 
