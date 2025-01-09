@@ -11,6 +11,7 @@
       SELECT 	*
       FROM	BOOK_INFO_TBL
       WHERE	book_key = #{book_key}
+      fetch first 1 rows only
    </select>
 
    <insert id="insert" parameterType="com.example.demo.vo.BookInfoVO">
