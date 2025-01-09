@@ -43,6 +43,7 @@ public class BookInfoController {
         }
         log.info("Book info found: {}", bookInfo);
         return ResponseEntity.ok(bookInfo);
+        
     }
 
     @Operation(summary = "도서 정보 추가", description = "도서 정보를 추가한다")
