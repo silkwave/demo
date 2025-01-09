@@ -4,8 +4,7 @@
 <mapper namespace="com.example.demo.dao.BookInfoDAO">
 
    <select id="selectAllBookInfo" resultType="com.example.demo.vo.BookInfoVO">
-      SELECT 	*
-      FROM	BOOK_INFO_TBL
+        SELECT * FROM BOOK_INFO_TBL ORDER BY BOOK_KEY DESC
    </select>
 
    <select id="selectByKey" parameterType="String" resultType="com.example.demo.vo.BookInfoVO">
