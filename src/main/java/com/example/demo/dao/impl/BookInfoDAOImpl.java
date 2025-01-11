@@ -54,25 +54,24 @@ public class BookInfoDAOImpl implements BookInfoDAO {
     // selectByKeyLockWithRetry: 책 정보를 조회하면서 잠금을 시도하고, 실패 시 재시도
     @Override
     public BookInfoVO selectByKeyLockWithRetry(String book_key, int retryCount) {
-        if (retryCount <= 0) {
-            throw new RuntimeException("Maximum retry attempts reached");
-        }
-
-        try {
-            // 책 정보를 조회하고 잠금을 시도
-            return sqlSession.selectOne("com.example.demo.dao.BookInfoDAO.selectByKeyLock", book_key);
-        } catch (Exception e) {
-            // 잠금을 얻지 못했을 경우 재시도
-            if (retryCount > 1) {
-                try {
-                    // 재시도 전에 1초간 대기
-                    Thread.sleep(1000);  // 1초 대기
-                    return selectByKeyLockWithRetry(book_key, retryCount - 1); // 재시도
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
+        for (int i = 0; i < retryCount; i++) {
+            try {
+                // 책 정보를 조회하고 잠금을 시도
+                return sqlSession.selectOne("com.example.demo.dao.BookInfoDAO.selectByKeyLock", book_key);
+            } catch (Exception e) {
+                // 잠금을 얻지 못했을 경우 재시도
+                if (i < retryCount - 1) {  // 마지막 재시도는 아니면
+                    try {
+                        // 재시도 전에 1초간 대기
+                        Thread.sleep(1000);  // 1초 대기
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                } else {
+                    throw new RuntimeException("Failed to acquire lock after multiple attempts: " + e.getMessage(), e);
                 }
             }
-            throw new RuntimeException("Failed to acquire lock after multiple attempts: " + e.getMessage(), e);
         }
+        return null;  // 이 코드는 사실 실행되지 않지만, 컴파일을 위해 필요
     }
 }

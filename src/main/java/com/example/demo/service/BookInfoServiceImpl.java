@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class BookInfoServiceImpl implements BookInfoService {
 
-    private final BookInfoDAO bookInfoDAO;
+    private final BookInfoDAO  bookInfoDAO;
 
     @Override
     public List<BookInfoVO> selectAllBookInfo() {
@@ -37,12 +37,13 @@ public class BookInfoServiceImpl implements BookInfoService {
     @Override
     @Transactional
     public void insertBookInfo(BookInfoVO bookInfo) {
-        if (bookInfo == null || bookInfo.getBook_key() == 0) {
+        if (bookInfo == null || bookInfo.getBook_key() == 0) { // 0을 사용하여 기본값 체크
             throw new IllegalArgumentException("유효하지 않은 도서 정보");
         }
         log.info("Inserting book: {}", bookInfo);
         bookInfoDAO.insert(bookInfo);
     }
+    
 
     @Override
     @Transactional
@@ -55,7 +56,7 @@ public class BookInfoServiceImpl implements BookInfoService {
         existingBook.setBook_author(updateBookInfo.getBook_author());
         existingBook.setBook_publisher(updateBookInfo.getBook_publisher());
 
-        log.info("Updating book: {}", existingBook);
+        log.info("Updating book with book_key: {} to {}", book_key, existingBook);
         return bookInfoDAO.update(existingBook);
     }
 
@@ -66,7 +67,6 @@ public class BookInfoServiceImpl implements BookInfoService {
         log.info("Deleting book: {}", bookInfo);
         return bookInfoDAO.delete(book_key); // DAO를 통해 삭제
     }
-    
 
     // Helper method to avoid repetition in selectByKey and update/delete methods
     private BookInfoVO findBookByKey(String book_key) {
