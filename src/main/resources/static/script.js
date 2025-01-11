@@ -1,123 +1,173 @@
-// 책 목록을 가져와서 표시하는 함수
-function fetchBooks() {
-  fetch("http://localhost:8080/book", {
-    method: "GET",
-    headers: {
-      Accept: "*/*", // 모든 형식의 응답을 받을 수 있도록 설정
-    },
-  })
-    .then((response) => response.json()) // 응답을 JSON 형식으로 변환
-    .then((data) => {
-      const bookTable = document.getElementById("bookTable").getElementsByTagName("tbody")[0];
-      bookTable.innerHTML = ""; // 기존 테이블 내용 지우기
-      data.forEach((book) => {
-        const row = createBookRow(book); // 각 책에 대해 테이블 행 생성
-        bookTable.appendChild(row); // 테이블에 행 추가
-      });
-    })
-    .catch((error) => console.error("Error fetching books:", error)); // 오류 발생 시 콘솔에 출력
+// Helper function for handling fetch response
+function handleFetchResponse(response) {
+  if (!response.ok) {
+    return response.json().then((errorData) => {
+      throw new Error(errorData.message || "Failed to process request.");
+    });
+  }
+  return response.json();
 }
 
-// 책의 데이터를 받아서 테이블 행을 생성하는 함수
+// Fetch books and populate the table
+function fetchBooks() {
+  fetchData("GET", "http://localhost:8080/book")
+    .then((data) => {
+      const bookTable = document.getElementById("bookTable").getElementsByTagName("tbody")[0];
+      bookTable.innerHTML = "";
+      data.forEach((book) => bookTable.appendChild(createBookRow(book)));
+    })
+    .catch((error) => {
+      console.error("Error fetching books:", error);
+      showMessage("Error fetching books.", false);
+    });
+}
+
+// Send a request to fetch, add, update, or delete books
+function fetchData(method, url, body = null) {
+  const options = {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body ? JSON.stringify(body) : null,
+  };
+
+  return fetch(url, options)
+    .then(handleFetchResponse)
+    .catch((error) => {
+      console.error(`Error with ${method} request:`, error);
+      showMessage(error.message, false);
+    });
+}
+
+// Create a row for the book table
 function createBookRow(book) {
   const row = document.createElement("tr");
   row.innerHTML = `
-          <td>${book.book_key}</td>
-          <td>${book.book_reg_no}</td>
-          <td>${book.book_title}</td>
-          <td>${book.book_author}</td>
-          <td>${book.book_publisher}</td>
-          <td>
-              <button onclick="loadBookForUpdate('${book.book_key}')">Update</button> <!-- 수정 버튼 -->
-              <button onclick="deleteBook('${book.book_key}', this)">Delete</button> <!-- 삭제 버튼 -->
-          </td>
-      `;
+    <td>${book.book_key}</td>
+    <td>${book.book_reg_no}</td>
+    <td>${book.book_title}</td>
+    <td>${book.book_author}</td>
+    <td>${book.book_publisher}</td>
+    <td>
+        <button onclick="loadBookForUpdate('${book.book_key}')">Update</button>
+        <button onclick="deleteBook('${book.book_key}', this)">Delete</button>
+    </td>
+  `;
   return row;
 }
 
-// 책 정보를 수정할 수 있도록 폼에 데이터를 채우는 함수
+// Load book details into the update form
 function loadBookForUpdate(bookKey) {
-  fetch(`http://localhost:8080/book/${bookKey}`)
-    .then((response) => response.json()) // 책 정보를 받아옴
+  fetchData("GET", `http://localhost:8080/book/${bookKey}`)
     .then((book) => {
-      // 수정할 책 정보를 폼에 채움
       document.getElementById("update_book_key").value = book.book_key;
       document.getElementById("update_book_reg_no").value = book.book_reg_no;
       document.getElementById("update_book_title").value = book.book_title;
       document.getElementById("update_book_author").value = book.book_author;
       document.getElementById("update_book_publisher").value = book.book_publisher;
+      openModal("updateModal");
     })
-    .catch((error) => console.error("Error loading book for update:", error)); // 오류 발생 시 콘솔에 출력
+    .catch((error) => console.error("Error loading book for update:", error));
 }
 
-// 책 추가 기능
+// Add a new book
 function addBook(event) {
-  event.preventDefault(); // 폼 제출 시 페이지 리로드 방지
-  const bookInfo = {
-    book_key: document.getElementById("book_key_input").value, // 책 키
-    book_reg_no: document.getElementById("add_book_reg_no").value, // 책 등록 번호
-    book_title: document.getElementById("add_book_title").value, // 책 제목
-    book_author: document.getElementById("add_book_author").value, // 책 저자
-    book_publisher: document.getElementById("add_book_publisher").value, // 책 출판사
-  };
+  event.preventDefault();
+  const bookInfo = getBookFormData("addBookForm");
 
-  fetch("http://localhost:8080/book/new", {
-    method: "POST", // 새 책을 추가하는 POST 요청
-    headers: {
-      "Content-Type": "application/json", // 요청 본문은 JSON 형식
-    },
-    body: JSON.stringify(bookInfo), // 책 정보 JSON 형태로 변환
-  })
-    .then((response) => response.json()) // 응답을 JSON 형식으로 변환a
-    .then((data) => {
-      // 새로운 책이 추가된 후 테이블을 새로고침
-      showMessage("Book added successfully!"); // 성공 메시지 표시
-      fetchBooks(); // 책 목록 새로고침
+  fetchData("POST", "http://localhost:8080/book/new", bookInfo)
+    .then(() => {
+      showMessage("Book added successfully!");
+      fetchBooks();
+      resetFormFields("addBookForm");
     })
     .catch((error) => {
-      console.error("Error adding book:", error); // 오류 발생 시 콘솔에 출력
-      showMessage("Error adding book.", false); // 실패 메시지 표시
+      showMessage(error.message, false);
     });
 }
 
-// 책 수정 기능
+// Update book details
 function updateBook(event) {
-  event.preventDefault(); // 폼 제출 시 페이지 리로드 방지
+  event.preventDefault();
   const bookKey = document.getElementById("update_book_key").value;
-  const bookInfo = {
-    book_reg_no: document.getElementById("update_book_reg_no").value,
-    book_title: document.getElementById("update_book_title").value,
-    book_author: document.getElementById("update_book_author").value,
-    book_publisher: document.getElementById("update_book_publisher").value,
-  };
+  const bookInfo = getBookFormData("updateBookForm");
 
-  fetch(`http://localhost:8080/book/${bookKey}`, {
-    method: "PUT", // 기존 책 정보를 수정하는 PUT 요청
-    headers: {
-      "Content-Type": "application/json", // 요청 본문은 JSON 형식
-    },
-    body: JSON.stringify(bookInfo), // 수정된 책 정보 JSON 형태로 변환
-  })
-    .then((response) => response.json()) // 응답을 JSON 형식으로 변환
-    .then((data) => {
-      showMessage("Book updated successfully!"); // 성공 메시지 표시
-      fetchBooks(); // 책 목록 새로고침
+  fetchData("PUT", `http://localhost:8080/book/${bookKey}`, bookInfo)
+    .then(() => {
+      showMessage("Book updated successfully!");
+      fetchBooks();
+      closeModal("updateModal");
     })
     .catch((error) => {
-      console.error("Error updating book:", error); // 오류 발생 시 콘솔에 출력
-      showMessage("Error updating book.", false); // 실패 메시지 표시
+      showMessage(error.message, false);
     });
 }
 
-// 메시지를 화면에 표시하는 함수
+// Delete a book
+function deleteBook(bookKey, buttonElement) {
+  if (!confirm("Are you sure you want to delete this book?")) return;
+
+  fetchData("DELETE", `http://localhost:8080/book/${bookKey}`)
+    .then(() => {
+      showMessage("Book deleted successfully!");
+      const row = buttonElement.closest("tr");
+      row.remove();
+    })
+    .catch((error) => {
+      showMessage(error.message, false);
+    });
+}
+
+// Extract book form data
+function getBookFormData(formId) {
+  const form = document.getElementById(formId);
+  const formData = {
+    book_key: form.querySelector("#book_key_input")?.value || form.querySelector("#update_book_key").value,
+    book_reg_no: form.querySelector("#add_book_reg_no")?.value || form.querySelector("#update_book_reg_no").value,
+    book_title: form.querySelector("#add_book_title")?.value || form.querySelector("#update_book_title").value,
+    book_author: form.querySelector("#add_book_author")?.value || form.querySelector("#update_book_author").value,
+    book_publisher: form.querySelector("#add_book_publisher")?.value || form.querySelector("#update_book_publisher").value,
+  };
+
+  return formData;
+}
+
+// Display success or error messages
 function showMessage(message, isSuccess = true) {
   const messageBox = document.getElementById("messageBox");
-  messageBox.innerText = message; // 메시지 내용 설정
-  messageBox.style.display = "block"; // 메시지 박스를 화면에 표시
-  messageBox.classList.toggle("success", isSuccess); // 성공 메시지 클래스 적용
-  messageBox.classList.toggle("error", !isSuccess); // 실패 메시지 클래스 적용
-  setTimeout(() => (messageBox.style.display = "none"), 3000); // 3초 후 메시지 박스 숨김
+  messageBox.innerText = message;
+  messageBox.style.display = "block";
+  messageBox.classList.toggle("success", isSuccess);
+  messageBox.classList.toggle("error", !isSuccess);
+  setTimeout(() => (messageBox.style.display = "none"), 3000);
 }
 
-// 페이지 로드 시 책 목록을 가져오는 함수 호출
+// Open modal
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = "block";
+}
+
+// Close modal
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = "none";
+}
+
+// Close modal when clicking outside of it
+window.onclick = function (event) {
+  const modals = document.querySelectorAll(".modal");
+  modals.forEach((modal) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+};
+
+// Reset form fields
+function resetFormFields(formId) {
+  const form = document.getElementById(formId);
+  form.reset();
+}
+
+// Fetch books when the page loads
 fetchBooks();

@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Management</title>
-    <link rel="stylesheet" href="styles.css"> <!-- 외부 CSS 파일 연결 -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <!-- 성공/오류 메시지를 위한 메시지 박스 -->
-    <div id="messageBox" class="message-box" style="display: none;"></div>
+    <div id="messageBox" class="message-box" style="display: none;" role="alert"></div>
 
     <!-- 책 목록을 보여주는 테이블 -->
     <div class="container">
         <div class="board">
-            <div class="board-header">Book List</div> <!-- 테이블 헤더 -->
+            <div class="board-header">Book List</div>
             <div class="board-content">
                 <table id="bookTable">
                     <thead>
                         <tr>
-                            <th>Book Key</th> <!-- 책 키 -->
-                            <th>Registration No</th> <!-- 등록 번호 -->
-                            <th>Title</th> <!-- 제목 -->
-                            <th>Author</th> <!-- 저자 -->
-                            <th>Publisher</th> <!-- 출판사 -->
-                            <th>Actions</th> <!-- 수정/삭제 버튼 -->
+                            <th>Book Key</th>
+                            <th>Registration No</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Publisher</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- 데이터 행은 JavaScript로 동적으로 추가됨 -->
+                        <!-- 책 행은 JavaScript로 동적으로 추가됨 -->
                     </tbody>
                 </table>
             </div>
@@ -40,32 +40,53 @@
     <div class="container">
         <div class="form-board">
             <div class="form-card">
-                <h2>Add Book</h2> <!-- "책 추가" 제목 -->
-                <form onsubmit="addBook(event)"> <!-- 책 추가 이벤트 처리 -->
-                    <input type="text" id="book_key_input" placeholder="Book Key" required> <!-- 책 키 입력 -->
-                    <input type="text" id="add_book_reg_no" placeholder="Registration No" required> <!-- 등록 번호 입력 -->
-                    <input type="text" id="add_book_title" placeholder="Title" required> <!-- 제목 입력 -->
-                    <input type="text" id="add_book_author" placeholder="Author" required> <!-- 저자 입력 -->
-                    <input type="text" id="add_book_publisher" placeholder="Publisher" required> <!-- 출판사 입력 -->
-                    <button type="submit">Add Book</button> <!-- "책 추가" 버튼 -->
+                <h2>Add Book</h2>
+                <form id="addBookForm" onsubmit="addBook(event)">
+                    <label for="book_key_input">Book Key</label>
+                    <input type="text" id="book_key_input" placeholder="Book Key" required>
+
+                    <label for="add_book_reg_no">Registration No</label>
+                    <input type="text" id="add_book_reg_no" placeholder="Registration No" required>
+
+                    <label for="add_book_title">Title</label>
+                    <input type="text" id="add_book_title" placeholder="Title" required>
+
+                    <label for="add_book_author">Author</label>
+                    <input type="text" id="add_book_author" placeholder="Author" required>
+
+                    <label for="add_book_publisher">Publisher</label>
+                    <input type="text" id="add_book_publisher" placeholder="Publisher" required>
+
+                    <button type="submit">Add Book</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- 책 수정 폼 -->
+    <!-- 책 수정 폼 (모달 형태로 표시됨) -->
     <div class="container">
         <div class="form-board">
-            <div class="form-card">
-                <h2>Update Book</h2> <!-- "책 수정" 제목 -->
-                <form onsubmit="updateBook(event)"> <!-- 책 수정 이벤트 처리 -->
-                    <input type="text" id="update_book_key" placeholder="Book Key" required> <!-- 책 키 입력 -->
-                    <input type="text" id="update_book_reg_no" placeholder="Registration No" required> <!-- 등록 번호 입력 -->
-                    <input type="text" id="update_book_title" placeholder="Title" required> <!-- 제목 입력 -->
-                    <input type="text" id="update_book_author" placeholder="Author" required> <!-- 저자 입력 -->
-                    <input type="text" id="update_book_publisher" placeholder="Publisher" required> <!-- 출판사 입력 -->
-                    <button type="submit">Update Book</button> <!-- "책 수정" 버튼 -->
+            <div class="form-card" id="updateModal" style="display: none;">
+                <h2>Update Book</h2>
+                <form id="updateBookForm" onsubmit="updateBook(event)">
+                    <label for="update_book_key">Book Key</label>
+                    <input type="text" id="update_book_key" placeholder="Book Key" required readonly>
+
+                    <label for="update_book_reg_no">Registration No</label>
+                    <input type="text" id="update_book_reg_no" placeholder="Registration No" required>
+
+                    <label for="update_book_title">Title</label>
+                    <input type="text" id="update_book_title" placeholder="Title" required>
+
+                    <label for="update_book_author">Author</label>
+                    <input type="text" id="update_book_author" placeholder="Author" required>
+
+                    <label for="update_book_publisher">Publisher</label>
+                    <input type="text" id="update_book_publisher" placeholder="Publisher" required>
+
+                    <button type="submit">Update Book</button>
                 </form>
+                <button onclick="closeModal('updateModal')">Close</button>
             </div>
         </div>
     </div>
