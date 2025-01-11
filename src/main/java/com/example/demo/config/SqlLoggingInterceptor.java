@@ -16,6 +16,8 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.Connection;
 import java.text.DateFormat;
 import java.util.Date;
@@ -25,9 +27,8 @@ import java.util.Properties;
 @Intercepts({
     @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})
 })
+@Slf4j
 public class SqlLoggingInterceptor implements Interceptor {
-
-    private static final Logger logger = LoggerFactory.getLogger(SqlLoggingInterceptor.class);
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -37,9 +38,9 @@ public class SqlLoggingInterceptor implements Interceptor {
 
         String sqlWithParams = showSql(configuration, boundSql);
 
-        logger.info("Executing SQL: <<< START >>>");
-        logger.info("Executing SQL: [" + sqlWithParams + "]");
-        logger.info("Executing SQL: <<< END   >>> ");
+        log.info("Executing SQL: <<< START >>>");
+        log.info("Executing SQL: [" + sqlWithParams + "]");
+        log.info("Executing SQL: <<< END   >>> ");
 
         return invocation.proceed();
     }

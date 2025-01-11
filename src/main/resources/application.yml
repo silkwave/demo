@@ -1,50 +1,50 @@
 spring:
   application:
-    name: demo
+    name: demo  # 애플리케이션 이름 설정
+
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver  # Oracle JDBC 드라이버 클래스 이름
-    url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL  # Oracle DB 연결 URL
-    username: docker  # 데이터베이스 사용자명
-#    password: docker123
-    password: ENC(e0RkhL8qEaVissFWEH9ihubfgS9ZLUwm0n6pLKG7r0e1NX5bb/JioOaf/6v2D7OZ)  # 암호화된 비밀번호    
+    driver-class-name: oracle.jdbc.OracleDriver  # Oracle JDBC 드라이버 클래스명
+    url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL  # 데이터베이스 연결 URL (Oracle)
+    username: docker  # 데이터베이스 사용자 이름
+    password: ENC(e0RkhL8qEaVissFWEH9ihubfgS9ZLUwm0n6pLKG7r0e1NX5bb/JioOaf/6v2D7OZ)  # 암호화된 비밀번호
     hikari:
-      connection-timeout: 15000  # 커넥션 타임아웃 (밀리초)
+      connection-timeout: 15000  # 커넥션 타임아웃 시간 (ms)
       maximum-pool-size: 10  # 최대 커넥션 풀 크기
       data-source-properties:
-        '[oracle.net.disableOob]': true  # Oracle OOB(Out-of-Band) 사용 안 함    
+        '[oracle.net.disableOob]': true  # Oracle 네트워크 설정 (OOB 기능 비활성화)
+
   devtools:
-    add-properties: false
+    add-properties: false  # devtools에서 속성 파일을 추가하지 않도록 설정
     restart:
-      enabled: true
+      enabled: true  # 애플리케이션 리스타트 기능 활성화
+
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: update  # Hibernate DDL 자동 처리 (데이터베이스 스키마 자동 업데이트)
+    show-sql: true  # 실행되는 SQL을 콘솔에 출력
     properties:
       hibernate:
-        '[format_sql]'  : true
+        '[format_sql]'  : true  # SQL 포맷을 읽기 쉽게 출력
 
 jasypt:
   encryptor:
     password: mySecretKey  # 암호화에 사용할 키
-    algorithm: PBEWithHMACSHA512AndAES_256  # 암호화 알고리즘    
+    algorithm: PBEWithHMACSHA512AndAES_256  # 암호화 알고리즘 설정 (SHA-512와 AES-256 사용)
 
-# server
 server:
-  port: 8080
+  port: 8080  # 서버 포트 설정
   servlet:
     session:
-      timeout: 360000
+      timeout: 360000  # 세션 타임아웃 시간 (ms)
 
 mybatis:
-  mapper-locations: classpath:/mapper/**/*.xml  # MyBatis 매퍼 파일 경로 설정
-#  type-aliases-package: com.example.demo.dao
+  # mapper-locations: classpath:/mapper/**/*.xml  # MyBatis 매퍼 XML 위치 설정 (주석처리됨)
+  # type-aliases-package: com.example.demo.dao  # MyBatis Type Alias 패키지 설정 (주석처리됨)
   configuration:
-    map-underscore-to-camel-case: true  # DB 컬럼명과 객체 필드명 매핑 시 언더스코어를 카멜 케이스로 변환
+    map-underscore-to-camel-case: true  # MyBatis에서 언더스코어 구분자 필드를 카멜 케이스로 변환
 
 logging:
   level:
-    '[com.example.demo]': DEBUG  # boards 패키지 로그 레벨 설정  
-    '[org.apache.ibatis]': DEBUG  # MyBatis 관련 로그 레벨 설정
-    '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG  # SqlSessionFactoryBean 관련 로그 레벨 설정    
-
+    '[com.example.demo]': DEBUG  # com.example.demo 패키지에 대한 로그 레벨을 DEBUG로 설정
+    '[org.apache.ibatis]': DEBUG  # MyBatis 라이브러리에 대한 로그 레벨을 DEBUG로 설정
+    '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG  # SqlSessionFactoryBean에 대한 로그 레벨을 DEBUG로 설정

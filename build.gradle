@@ -1,68 +1,55 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.4.1'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'  // 자바 플러그인
+    id 'org.springframework.boot' version '3.4.1'  // Spring Boot 플러그인
+    id 'io.spring.dependency-management' version '1.1.7'  // Spring 의존성 관리 플러그인
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+group = 'com.example'  // 프로젝트 그룹
+version = '0.0.1-SNAPSHOT'  // 프로젝트 버전
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(17)  // Java 17 버전 설정
     }
 }
 
 configurations {
     compileOnly {
-        extendsFrom annotationProcessor
+        extendsFrom annotationProcessor  // 컴파일 전용 설정에 annotationProcessor 의존성 추가
     }
 }
 
 repositories {
-    mavenCentral() 
-    maven { url 'https://repo.spring.io/release' } // Spring Maven 저장소 추가	
+    mavenCentral()  // Maven Central 레포지토리
+    maven { url 'https://repo.spring.io/release' }  // Spring의 공식 릴리스 레포지토리
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'  // 웹 애플리케이션을 위한 Spring Boot 스타터
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc' // JDBC 관련 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  // Thymeleaf 템플릿 엔진 의존성
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'  // OpenAPI UI 의존성
+    implementation 'io.swagger:swagger-annotations:1.6.2'  // Swagger 어노테이션 의존성
 
-    
-    // Springdoc OpenAPI 의존성만 추가
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
-    implementation 'io.swagger:swagger-annotations:1.6.2'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'  // Jakarta Servlet API (컴파일 전용)
+    compileOnly 'org.projectlombok:lombok'  // Lombok (컴파일 전용)
+    annotationProcessor 'org.projectlombok:lombok'  // Lombok annotation processor
 
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'  // 개발 도구 (DevTools) 의존성
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'  // MyBatis Spring Boot 스타터
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'  // Oracle JDBC 드라이버 (런타임 의존성)
 
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'  // Jasypt 암호화 라이브러리 의존성
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'  // Spring Boot configuration processor
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'  // Oracle JDBC 드라이버 (중복된 항목)
 
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'jakarta.transaction:jakarta.transaction-api:2.0.0'  // Jakarta Transaction API
 
-    // Lombok (보일러플레이트 코드 감소)
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
-    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
-
-    // Jasypt Spring Boot 통합 (암호화 기능)
-    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
-
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    // Oracle DB 연결을 위한 JDBC 드라이버
-    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
-
-    // 단위 및 통합 테스트를 위한 Spring Boot 테스트 스타터
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    // MyBatis 관련 테스트를 위한 MyBatis Spring Boot 테스트 스타터
-    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'	
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'  // Spring Boot 테스트 스타터
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'  // MyBatis 테스트 스타터
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'  // JUnit 플랫폼 런처
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform()  // JUnit 플랫폼을 사용하여 테스트 실행
 }

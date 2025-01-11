@@ -15,13 +15,14 @@
       WHERE book_key = #{book_key}
       FETCH FIRST 1 ROWS ONLY <!-- Oracle의 경우 FETCH FIRST 사용 -->
    </select>
+   
    <!-- book_key로 책 정보 조회 (Oracle에 맞춰 fetch first 사용 및 LOCK 적용) -->
    <select id="selectByKeyLock" parameterType="String" resultType="com.example.demo.vo.BookInfoVO">
       SELECT * 
       FROM BOOK_INFO_TBL
       WHERE book_key = #{book_key}
-      FETCH FIRST 1 ROWS ONLY
       FOR UPDATE NOWAIT
+      <!-- FETCH FIRST 1 ROWS ONLY -->
    </select>
 
 
