@@ -21,9 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-@Intercepts({
-    @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})
-})
+@Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 @Slf4j
 public class SqlLoggingInterceptor implements Interceptor {
 
