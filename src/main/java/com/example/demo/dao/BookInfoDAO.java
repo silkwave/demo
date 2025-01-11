@@ -46,7 +46,6 @@ public class BookInfoDAO {
   }
 
   public BookInfoVO selectByKeyLockWithRetry(String book_key, int retryCount) {
-    log.error("selectByKeyLockWithRetry book_key {}", book_key);
 
     for (int attempt = 1; attempt <= retryCount; attempt++) {
       try {
