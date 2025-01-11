@@ -3,37 +3,48 @@
 
 <mapper namespace="com.example.demo.dao.BookInfoDAO">
 
+   <!-- 모든 책 정보 조회 -->
    <select id="selectAllBookInfo" resultType="com.example.demo.vo.BookInfoVO">
         SELECT * FROM BOOK_INFO_TBL ORDER BY BOOK_KEY DESC
    </select>
 
+   <!-- book_key로 책 정보 조회 (Oracle에 맞춰 fetch first 사용) -->
    <select id="selectByKey" parameterType="String" resultType="com.example.demo.vo.BookInfoVO">
-      SELECT 	*
-      FROM	BOOK_INFO_TBL
-      WHERE	book_key = #{book_key}
-      fetch first 1 rows only
+      SELECT * 
+      FROM BOOK_INFO_TBL
+      WHERE book_key = #{book_key}
+      FETCH FIRST 1 ROWS ONLY <!-- Oracle의 경우 FETCH FIRST 사용 -->
+   </select>
+   <!-- book_key로 책 정보 조회 (Oracle에 맞춰 fetch first 사용 및 LOCK 적용) -->
+   <select id="selectByKeyLock" parameterType="String" resultType="com.example.demo.vo.BookInfoVO">
+      SELECT * 
+      FROM BOOK_INFO_TBL
+      WHERE book_key = #{book_key}
+      FETCH FIRST 1 ROWS ONLY
+      FOR UPDATE NOWAIT
    </select>
 
+
+   <!-- 새 책 정보 추가 -->
    <insert id="insert" parameterType="com.example.demo.vo.BookInfoVO">
-      INSERT INTO BOOK_INFO_TBL(book_key, book_reg_no, book_title, book_author, book_publisher)
-      VALUES(#{book_key}, #{book_reg_no, jdbcType=VARCHAR},
-      		#{book_title, jdbcType=VARCHAR}, #{book_author, jdbcType=VARCHAR},
-                #{book_publisher, jdbcType=VARCHAR})
+      INSERT INTO BOOK_INFO_TBL (book_key, book_reg_no, book_title, book_author, book_publisher)
+      VALUES (#{book_key}, #{book_reg_no}, #{book_title}, #{book_author}, #{book_publisher})
    </insert>
 
+   <!-- 책 정보 수정 -->
    <update id="update" parameterType="com.example.demo.vo.BookInfoVO">
-      UPDATE   BOOK_INFO_TBL
-      SET      book_key = #{book_key},
-               book_reg_no = #{book_reg_no},
-               book_title = #{book_title},
-               book_author = #{book_author},
-               book_publisher = #{book_publisher}
-      WHERE    book_key = #{book_key}
+      UPDATE BOOK_INFO_TBL
+      SET book_reg_no = #{book_reg_no},
+          book_title = #{book_title},
+          book_author = #{book_author},
+          book_publisher = #{book_publisher}
+      WHERE book_key = #{book_key}
    </update>
 
+   <!-- 책 정보 삭제 -->
    <delete id="delete" parameterType="String">
-      DELETE BOOK_INFO_TBL
-      WHERE  book_key = #{book_key}
+      DELETE FROM BOOK_INFO_TBL
+      WHERE book_key = #{book_key}
    </delete>
-   
+
 </mapper>
