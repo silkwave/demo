@@ -31,12 +31,6 @@ public class BookInfoDAOImpl implements BookInfoDAO {
   }
 
   @Override
-  public BookInfoVO selectByKeyLock(String book_key) {
-    // 책 정보 조회 및 잠금 처리 (MyBatis 매퍼에서 정의한 SQL을 사용)
-    return sqlSession.selectOne("com.example.demo.dao.BookInfoDAO.selectByKeyLock", book_key);
-  }
-
-  @Override
   public void insert(BookInfoVO bookInfo) {
     // 새 책 정보 추가
     sqlSession.insert("com.example.demo.dao.BookInfoDAO.insert", bookInfo);
