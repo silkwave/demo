@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dao.BookInfoDAO;
 import com.example.demo.exception.BookNotFoundException;
 import com.example.demo.vo.BookInfoVO;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import com.google.gson.Gson;
 
 @Service
 @Slf4j
@@ -43,17 +43,28 @@ public class BookInfoService {
 
     @Transactional
     public boolean updateBookInfo(String book_key, BookInfoVO updateBookInfo) {
+    
+        // 1. 주어진 book_key로 기존 책 정보 조회
         BookInfoVO existingBook = findBookByKey(book_key);
-
-        // Update the fields of the book
-        existingBook.setBook_reg_no(updateBookInfo.getBook_reg_no());
-        existingBook.setBook_title(updateBookInfo.getBook_title());
-        existingBook.setBook_author(updateBookInfo.getBook_author());
-        existingBook.setBook_publisher(updateBookInfo.getBook_publisher());
-
-        log.info("Updating book with book_key: {} to {}", book_key, existingBook);
+    
+        // 2. Gson 객체 생성 (updateBookInfo 객체를 JSON으로 변환하기 위해 사용)
+        Gson gson = new Gson();
+    
+        // 3. updateBookInfo 객체를 JSON 문자열로 변환
+        String jsonString = gson.toJson(updateBookInfo);
+        log.info("\n\n\nupdateBookInfo → JSON: {}", jsonString);
+    
+        // 4. JSON 문자열을 다시 BookInfoVO 객체로 변환 (기존 책 정보 객체를 업데이트)
+        existingBook = gson.fromJson(jsonString, BookInfoVO.class);
+    
+        // 5. 업데이트된 책 정보 로그 출력
+        log.info("\n\n책 정보 업데이트 중, book_key: {} -> {}", book_key, existingBook);
+    
+        // 6. 변경된 책 정보를 데이터베이스에 업데이트
         return bookInfoDAO.update(existingBook);
     }
+    
+    
 
     @Transactional
     public boolean deleteBookInfo(String book_key) {

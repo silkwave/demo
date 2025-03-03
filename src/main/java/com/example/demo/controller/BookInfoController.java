@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.BookNotFoundException;
 import com.example.demo.service.BookInfoService;
+import com.example.demo.vo.BookInfoListADTO;
+import com.example.demo.vo.BookInfoListBDTO;
 import com.example.demo.vo.BookInfoVO;
+import com.google.gson.Gson;
+
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,4 +82,28 @@ public class BookInfoController {
         }
         return ResponseEntity.ok("Book deleted successfully");
     }
+
+    @Operation(summary = "json", description = "json")
+    @PostMapping(value = "/json", consumes = MediaType.APPLICATION_JSON_VALUE)    
+    public ResponseEntity<BookInfoListBDTO> jsonList(@RequestBody BookInfoListADTO bookInfoListADTO) {
+
+     // 1. Gson 객체 생성 (updateBookInfo 객체를 JSON으로 변환하기 위해 사용)
+     Gson gson = new Gson();
+
+     // 2. BookInfoListADTO 객체를 JSON 문자열로 변환
+     String jsonString = gson.toJson(bookInfoListADTO);
+     log.info("\n\n\nBookInfoListADTO → JSON: {}", jsonString);
+ 
+     // 3. JSON 문자열을 다시 BookInfoListBDTO 객체로 변환
+     BookInfoListBDTO bookInfoListBDTO = gson.fromJson(jsonString, BookInfoListBDTO.class);
+     
+     // 4. cntLong을 books 리스트의 크기로 설정
+     bookInfoListBDTO.setCntLong((long) bookInfoListADTO.getBooks().size());
+ 
+     log.info("\n\n\nJSON → BookInfoListBDTO: {}\n\n", bookInfoListBDTO);
+ 
+     // 5. ResponseEntity로 반환
+     return ResponseEntity.ok(bookInfoListBDTO);
+     
+    }    
 }

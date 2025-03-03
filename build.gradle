@@ -21,7 +21,7 @@ configurations {
 
 repositories {
     mavenCentral()  // Maven Central 레포지토리
-    maven { url 'https://repo.spring.io/release' }  // Spring의 공식 릴리스 레포지토리
+    maven { url 'https://repo.maven.apache.org/maven2' }  // Apache Maven 저장소 추가    
 }
 
 dependencies {
@@ -30,6 +30,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  // Thymeleaf 템플릿 엔진 의존성
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'  // OpenAPI UI 의존성
     implementation 'io.swagger:swagger-annotations:1.6.2'  // Swagger 어노테이션 의존성
+    implementation 'com.google.code.gson:gson:2.11.0'
+
+
 
     compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'  // Jakarta Servlet API (컴파일 전용)
     compileOnly 'org.projectlombok:lombok'  // Lombok (컴파일 전용)
@@ -53,3 +56,4 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()  // JUnit 플랫폼을 사용하여 테스트 실행
 }
+
