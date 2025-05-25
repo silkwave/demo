@@ -1,28 +1,22 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import ch.qos.logback.classic.Level;
 import com.example.demo.exception.BookNotFoundException;
 import com.example.demo.service.BookInfoService;
+import com.example.demo.util.LogLevelUtil;
 import com.example.demo.vo.BookInfoListADTO;
 import com.example.demo.vo.BookInfoListBDTO;
 import com.example.demo.vo.BookInfoVO;
 import com.google.gson.Gson;
-
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -34,7 +28,10 @@ public class BookInfoController {
     @Operation(summary = "도서 목록 조회", description = "도서 목록을 조회한다")
     @GetMapping("/book")
     public List<BookInfoVO> selectAllBookInfo() {
-        log.info("Fetching all books");
+
+        LogLevelUtil.setGlobalLogLevel(Level.DEBUG); // 원하는 로그 레벨 설정
+
+        log.debug("Fetching all books");
         return bookInfoService.selectAllBookInfo();
     }
 

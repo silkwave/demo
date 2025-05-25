@@ -2,6 +2,9 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +20,17 @@ import com.google.gson.Gson;
 @AllArgsConstructor
 public class BookInfoService {
 
+
+
     private final BookInfoDAO bookInfoDAO;
 
     public List<BookInfoVO> selectAllBookInfo() {
+
+        log.error("selectAllBookInfo  all books");
+
         return bookInfoDAO.selectAllBookInfo();
+
+
     }
 
     public BookInfoVO selectByKey(String book_key) {
@@ -83,4 +93,7 @@ public class BookInfoService {
 
         return bookInfo;
     }
+
+
+
 }
