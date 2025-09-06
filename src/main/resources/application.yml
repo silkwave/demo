@@ -51,6 +51,6 @@ logging:
 
 app:
   source:
-    resource-path: data/example.txt   # JAR 내부 리소스 경로
+    resource-path: data/Rocket.png
   target:
-    file-path: /home/silkwave/apps/backup/example.txt     # 외부 복사 경로
+    file-path: ${user.home}/backup/Rocket.png
