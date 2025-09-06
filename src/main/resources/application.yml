@@ -48,3 +48,9 @@ logging:
     '[com.example.demo]': DEBUG  # com.example.demo 패키지에 대한 로그 레벨을 DEBUG로 설정
     '[org.apache.ibatis]': DEBUG  # MyBatis 라이브러리에 대한 로그 레벨을 DEBUG로 설정
     '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG  # SqlSessionFactoryBean에 대한 로그 레벨을 DEBUG로 설정
+
+app:
+  source:
+    resource-path: data/example.txt   # JAR 내부 리소스 경로
+  target:
+    file-path: /home/silkwave/apps/backup/example.txt     # 외부 복사 경로
