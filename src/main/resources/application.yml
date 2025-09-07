@@ -53,4 +53,4 @@ app:
   source:
     resource-path: data/Rocket.png
   target:
-    file-path: ${user.home}/backup/Rocket.png
+    file-path: /opt/backup/Rocket.png
