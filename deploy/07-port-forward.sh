@@ -20,9 +20,17 @@ kubectl wait --for=condition=ready pod/"$POD_NAME" --timeout=120s
 success "✅ Pod Ready 상태 확인 완료"
 
 # -------------------------------
+# 포트 포워딩 시작
+# -------------------------------
+step "7️⃣ 포트 포워딩 시작"
+kubectl port-forward svc/myapp ${PORT}:${PORT} &
+PF_PID=$!
+success "✅ 포트 포워딩 시작 완료: http://localhost:${PORT} (PID: ${PF_PID})"
+
+# -------------------------------
 # NodePort 서비스 열림 확인
 # -------------------------------
-step "🔎 Service 포트 확인 및 TCP 체크"
+step "🔎 서비스 포트 열림 확인"
 for i in $(seq 1 $MAX_RETRIES); do
     if timeout 2 bash -c ">/dev/tcp/${HOST}/${PORT}" 2>/dev/null; then
         success "✅ 서비스 포트 열림 확인 완료: ${HOST}:${PORT}"
@@ -37,14 +45,6 @@ for i in $(seq 1 $MAX_RETRIES); do
         exit 1
     fi
 done
-
-# -------------------------------
-# 포트 포워딩 시작
-# -------------------------------
-step "7️⃣ 포트 포워딩 시작"
-kubectl port-forward svc/myapp ${PORT}:${PORT} &
-PF_PID=$!
-success "✅ 포트 포워딩 완료: http://localhost:${PORT} (PID: ${PF_PID})"
 
 # -------------------------------
 # Pod 로그 확인 (실시간)
