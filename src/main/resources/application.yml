@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver  # Oracle JDBC 드라이버 클래스명
-    url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL  # 데이터베이스 연결 URL (Oracle)
+    url: jdbc:oracle:thin:@//192.168.139.179:1521/ORCL # 데이터베이스 연결 URL (Oracle)
     username: docker  # 데이터베이스 사용자 이름
     password: ENC(e0RkhL8qEaVissFWEH9ihubfgS9ZLUwm0n6pLKG7r0e1NX5bb/JioOaf/6v2D7OZ)  # 암호화된 비밀번호
     hikari:
