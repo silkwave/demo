@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import ch.qos.logback.classic.Level;
-import com.example.demo.util.LogLevelUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
