@@ -21,7 +21,7 @@ spec:
             - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:oracle:thin:@//${HOST_IP}:1521/ORCL"
+              value: "jdbc:oracle:thin:@//${LOCAL_IP}:1521/ORCL"
             - name: SPRING_DATASOURCE_USERNAME
               value: "docker"
             - name: SPRING_DATASOURCE_PASSWORD

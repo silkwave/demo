@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: spring-server
-          image: ${LOCAL_IP}:5000/spring-server:latest
+          image: 192.168.139.179:5000/spring-server:latest
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:oracle:thin:@//${HOST_IP}:1521/ORCL"
+              value: "jdbc:oracle:thin:@//192.168.139.179:1521/ORCL"
             - name: SPRING_DATASOURCE_USERNAME
               value: "docker"
             - name: SPRING_DATASOURCE_PASSWORD

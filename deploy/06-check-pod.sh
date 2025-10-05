@@ -2,7 +2,6 @@
 set -e
 source ./00-common.sh
 
-HOST_IP=$(ip addr show eth0 | awk '/inet / {print $2}' | cut -d/ -f1)
 DB_PORT=1521
 
 step "6️⃣ Pod 상태 확인 및 DB TCP 연결 테스트"
@@ -28,7 +27,7 @@ kubectl get svc myapp
 
 # TCP 연결 테스트
 TCP_CHECK=$(kubectl exec "$POD_NAME" -- sh -c "
-if timeout 5 bash -c '>/dev/tcp/${HOST_IP}/${DB_PORT}'; then
+if timeout 5 bash -c '>/dev/tcp/${LOCAL_IP}/${DB_PORT}'; then
     echo '✅ Oracle DB 포트 열림'
 else
     echo '❌ Oracle DB 접속 실패'
