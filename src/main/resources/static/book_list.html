@@ -1,93 +1,46 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Management</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Book Management</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- 메시지 박스 -->
-    <div id="messageBox" class="message-box" style="display: none;" role="alert"></div>
+  <h1>📚 도서 관리</h1>
 
-    <!-- 책 목록 -->
-    <div class="container">
-        <div class="board">
-            <div class="board-header">Book List</div>
-            <div class="board-content">
-                <table id="bookTable">
-                    <thead>
-                        <tr>
-                            <th>Book Key</th>
-                            <th>Registration No</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Publisher</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- JS로 추가 -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <button class="add" onclick="openBookForm()">➕ 도서 추가</button>
+
+  <table id="bookTable">
+    <thead>
+      <tr>
+        <th>도서 코드</th>
+        <th>등록 번호</th>
+        <th>도서명</th>
+        <th>저자</th>
+        <th>출판사</th>
+        <th>작업</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- 모달 -->
+  <div id="bookModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle">도서 추가</h2>
+      <input type="text" id="book_key" placeholder="도서 코드">
+      <input type="text" id="book_reg_no" placeholder="등록 번호">
+      <input type="text" id="book_title" placeholder="도서명">
+      <input type="text" id="book_author" placeholder="저자">
+      <input type="text" id="book_publisher" placeholder="출판사">
+      <div class="modal-footer">
+        <button id="saveButton">저장</button>
+        <button onclick="closeModal()">취소</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Add Book 폼 -->
-    <div class="container">
-        <div class="form-board">
-            <div class="form-card">
-                <h2>Add Book</h2>
-                <form id="addBookForm" onsubmit="addBook(event)">
-                    <label for="book_key_input">Book Key</label>
-                    <input type="text" id="book_key_input" placeholder="Book Key" required>
-
-                    <label for="add_book_reg_no">Registration No</label>
-                    <input type="text" id="add_book_reg_no" placeholder="Registration No" required>
-
-                    <label for="add_book_title">Title</label>
-                    <input type="text" id="add_book_title" placeholder="Title" required>
-
-                    <label for="add_book_author">Author</label>
-                    <input type="text" id="add_book_author" placeholder="Author" required>
-
-                    <label for="add_book_publisher">Publisher</label>
-                    <input type="text" id="add_book_publisher" placeholder="Publisher" required>
-
-                    <button type="submit" class="add-btn">Add Book</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Update Book 모달 -->
-    <div id="updateModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('updateModal')">&times;</span>
-            <h2>Update Book</h2>
-            <form id="updateBookForm" onsubmit="updateBook(event)">
-                <label for="update_book_key">Book Key</label>
-                <input type="text" id="update_book_key" readonly required>
-
-                <label for="update_book_reg_no">Registration No</label>
-                <input type="text" id="update_book_reg_no" required>
-
-                <label for="update_book_title">Title</label>
-                <input type="text" id="update_book_title" required>
-
-                <label for="update_book_author">Author</label>
-                <input type="text" id="update_book_author" required>
-
-                <label for="update_book_publisher">Publisher</label>
-                <input type="text" id="update_book_publisher" required>
-
-                <button type="submit" class="update-btn">Update Book</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
