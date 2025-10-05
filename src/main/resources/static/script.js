@@ -110,7 +110,7 @@ function saveBook(isUpdate) {
       return res.json();
     })
     .then(() => {
-      closeModal();
+      closeModal();  
       loadBookList();
     })
     .catch(err => alert(err.message));
