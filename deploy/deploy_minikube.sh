@@ -132,3 +132,4 @@ podman rmi -f $(podman images -q)
 
 alias podman="podman"
 alias podman-compose="podman-compose"
+alias kubectl="kubectl"
