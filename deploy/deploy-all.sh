@@ -29,11 +29,11 @@ podman images --format "{{.ID}} {{.Repository}}" | grep -v "oracle19c" | awk '{p
 # -----------------------------------
 # 2️⃣ 단계별 실행
 # -----------------------------------
-echo -e "${YELLOW}\n📦 Minikube 초기화${RESET}"
-./02-minikube-init.sh
-
 echo -e "${YELLOW}\n💾 Oracle DB 컨테이너 기동${RESET}"
 ./01-oracle.sh
+
+echo -e "${YELLOW}\n📦 Minikube 초기화${RESET}"
+./02-minikube-init.sh
 
 echo -e "${YELLOW}\n📡 로컬 레지스트리 기동${RESET}"
 ./03-registry.sh
@@ -45,10 +45,7 @@ echo -e "${YELLOW}\n🚢 애플리케이션 배포${RESET}"
 ./05-deploy.sh
 
 echo -e "${YELLOW}\n🔍 Pod 상태 확인${RESET}"
-./06-check-pod.sh
-
-echo -e "${YELLOW}\n🌐 포트 포워딩 설정${RESET}"
-./07-port-forward.sh
+./06-check-and-forward.sh
 
 # -----------------------------------
 # ✅ 완료 메시지
