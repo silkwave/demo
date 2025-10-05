@@ -61,10 +61,16 @@ sleep 1
 
 # 포트포워딩 실행 (nohup 백그라운드)
 nohup kubectl port-forward svc/myapp ${APP_PORT}:${APP_PORT} > /dev/null 2>&1 &
-sleep 1
+PF_PID=$!
+
+if ! kill -0 $PF_PID 2>/dev/null; then
+    fail "포트 포워딩 시작 실패"
+    exit 1
+fi
+success "포트 포워딩 시작 완료 (PID: $PF_PID): localhost:${APP_PORT} -> svc/myapp:${APP_PORT}"
 
 # ===============================
-# 8. 서비스 포트 열림 확인
+# 9. 서비스 포트 열림 확인
 # ===============================
 step "서비스 포트 열림 확인"
 for i in $(seq 1 $MAX_RETRIES); do
@@ -83,16 +89,14 @@ for i in $(seq 1 $MAX_RETRIES); do
 done
 
 # ===============================
-# 9. 최신 Pod 로그 확인 (실시간, 모든 컨테이너)
+# 10. 최신 Pod 로그 확인
 # ===============================
 step "최신 Pod 로그 확인 (Ctrl+C로 종료)"
-
-# 최신 Pod 이름 재조회
 POD_NAME=$(kubectl get pods -l app=myapp --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1].metadata.name}')
+
 if [[ -z "$POD_NAME" ]]; then
     fail "로그 확인할 Pod를 가져오지 못했습니다."
     exit 1
 fi
 
-# 로그 명령어 출력
 echo "kubectl logs -f \"$POD_NAME\" --all-containers=true"
